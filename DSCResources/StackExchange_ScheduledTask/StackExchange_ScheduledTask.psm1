@@ -170,8 +170,10 @@ function Set-TargetResource
         $Ensure = 'Present'
     )
 
+    $Session = new-pssession -computername $env:computername -Credential $Credential
     
-
+    $Job = Invoke-Command -Session $Session  { Get-ScheduledJob -Name $Using:Name -ErrorAction SilentlyContinue }
+ 
     if ($Ensure -like 'Present')
     {
         
@@ -208,8 +210,21 @@ function Set-TargetResource
                 $JobTriggerParameters.DaysOfWeek = $DaysOfWeek
             }
         }
-        $JobParameters.Trigger = New-JobTrigger @JobTriggerParameters
-        Register-ScheduledJob @JobParameters
+
+        ### If the job exists, then remove it before adding again
+        if ($Job)
+        {
+            #Jobber Clobber
+            Invoke-Command -Session $Session  {Unregister-ScheduledJob -Name $Using:Name}
+        }
+
+        Invoke-Command -Session $Session  { 
+            #TODO: this seems like a hacky way to do splatting, but I don't know a better way to do it
+            $jobParameters = $using:JobParameters
+            $jobTriggerParameters = $using:JobTriggerParameters
+            $jobParameters.Trigger = New-JobTrigger @jobTriggerParameters
+            Register-ScheduledJob @jobParameters -ErrorAction SilentlyContinue
+        }
     }
     else
     {
