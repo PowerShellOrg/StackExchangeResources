@@ -210,7 +210,6 @@ function Set-TargetResource
                 $JobTriggerParameters.DaysOfWeek = $DaysOfWeek
             }
         }
-        #$JobParameters.Trigger = New-JobTrigger @JobTriggerParameters
 
         ### If the job exists, then remove it before adding again
         if ($Job)
