@@ -27,6 +27,7 @@ os: Windows Server 2012 R2
 
 install: 
   ps: |
+    $psversiontable
     $OneGetZipPath = join-path $pwd 'oneget.zip'
     $OneGetProgramFilesLocation = join-path $env:programfiles 'windowspowershell/modules/oneget'
     if (-not (test-path $OneGetProgramFilesLocation)) {mkdir $OneGetProgramFilesLocation | out-null}

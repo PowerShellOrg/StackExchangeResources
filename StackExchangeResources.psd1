@@ -12,7 +12,7 @@
 # RootModule = ''
 
 # Version number of this module.
-ModuleVersion = '1.9.10.0'
+ModuleVersion = '1.10.0'
 
 # ID used to uniquely identify this module
 GUID = '7cec8ec5-91d8-435e-8136-51088d62fbed'
@@ -27,7 +27,7 @@ CompanyName = 'Stack Exchange'
 Copyright = '(c) 2014 Steven Murawski. All rights reserved.'
 
 # Description of the functionality provided by this module
-# Description = ''
+Description = 'DSC Resources for managing basic Windows settings.'
 
 # Minimum version of the Windows PowerShell engine required by this module
 # PowerShellVersion = ''
