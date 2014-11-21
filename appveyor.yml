@@ -79,4 +79,4 @@ deploy_script:
 
 
 # to disable deployment
-deploy: off
+#deploy: off
