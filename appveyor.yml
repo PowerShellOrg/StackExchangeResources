@@ -28,6 +28,12 @@ os: Windows Server 2012 R2
 install: 
   ps: |
     cinst PowerShellGet -Source https://www.myget.org/F/dsc-hero/
+    $PowerShellGetPath = (join-path $env:programfiles 'windowspowershell/modules/PowerShellGet')
+    if (-not (test-path $PowerShellGetPath)) 
+    {
+      mkdir $PowerShellGetPath
+    }
+    copy-item "$env:programdata\chocolatey\lib\PowerShellGet.0.5\*" -Destination $PowerShellGetPath -recurse -force
     install-module pester
 
 # to run your custom scripts instead of automatic MSBuild
