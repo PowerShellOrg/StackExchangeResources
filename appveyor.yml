@@ -81,8 +81,11 @@ deploy_script:
     copy-item . -Destination $ModulePath -recurse -exclude .git, *.md, appveyor.yml
     #
     # Publish Module
-    register-psrepository -Name MyGet -SourceLocation https://www.myget.org/F/dsc-hero/ -Publish https://www.myget.org/F/dsc-hero/
-    publish-module -Name StackExchangeResources -NuGetApiKey 3d1bf1d1-3ad1-48d5-9058-adc0a180ab3e -repository MyGet 
+    if ($env:APPVEYOR_REPO_TAG)
+    {
+      register-psrepository -Name MyGet -SourceLocation https://www.myget.org/F/dsc-hero/ -Publish https://www.myget.org/F/dsc-hero/
+      publish-module -Name StackExchangeResources -NuGetApiKey 3d1bf1d1-3ad1-48d5-9058-adc0a180ab3e -repository MyGet 
+    }
 
 
 # to disable deployment
