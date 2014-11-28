@@ -33,7 +33,16 @@ install:
     {
       mkdir $PowerShellGetPath
     }
-    copy-item "$env:programdata\chocolatey\lib\PowerShellGet.0.5\*" -Destination $PowerShellGetPath -recurse -force
+    copy-item  "$env:programdata\chocolatey\lib\PowerShellGet.0.5\*"-Destination $PowerShellGetPath -recurse -force
+    #
+    cinst  -Source https://www.myget.org/F/dsc-hero/
+    $OneGetPath = (join-path $env:programfiles 'windowspowershell/modules/OneGet')
+    if (-not (test-path $OneGetPath)) 
+    {
+      mkdir $OneGetPath
+    }
+    copy-item "$env:programdata\chocolatey\lib\OneGet.1.0.0.0\*" -Destination $OneGetPath -recurse -force
+    #
     install-module pester
 
 # to run your custom scripts instead of automatic MSBuild
