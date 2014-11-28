@@ -35,7 +35,7 @@ install:
     }
     copy-item  "$env:programdata\chocolatey\lib\PowerShellGet.0.5\*"-Destination $PowerShellGetPath -recurse -force
     #
-    cinst  -Source https://www.myget.org/F/dsc-hero/
+    cinst OneGet -Source https://www.myget.org/F/dsc-hero/
     $OneGetPath = (join-path $env:programfiles 'windowspowershell/modules/OneGet')
     if (-not (test-path $OneGetPath)) 
     {
