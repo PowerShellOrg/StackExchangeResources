@@ -22,7 +22,11 @@ function Get-TargetResource
         [parameter()]
         [ValidateSet('Present','Absent')]
         [string]
-        $Ensure = 'Present'
+        $Ensure = 'Present',
+		[parameter()]
+		[ValidateSet('PKCS12','PKCS7','X509')]
+		[string]
+		$Format = 'PKCS12'
     )
     
     #Needs to return a hashtable that returns the current
@@ -70,7 +74,11 @@ function Set-TargetResource
         [parameter()]
         [ValidateSet('Present','Absent')]
         [string]
-        $Ensure = 'Present'
+        $Ensure = 'Present',
+		[parameter()]
+		[ValidateSet('PKCS12','PKCS7','X509')]
+		[string]
+		$Format = 'PKCS12'
     )
 
     $CertificateBaseLocation = "cert:\$Location\$Store"
@@ -78,7 +86,15 @@ function Set-TargetResource
     if ($Ensure -like 'Present')
     {        
         Write-Verbose "Adding $path to $CertificateBaseLocation."
-        Import-PfxCertificate -CertStoreLocation $CertificateBaseLocation -FilePath $Path 
+		
+		if ($Format -eq 'PKCS12')
+		{
+			Import-PfxCertificate -CertStoreLocation $CertificateBaseLocation -FilePath $Path 
+		}
+		else
+		{
+			Import-Certificate -CertStoreLocation $CertificateBaseLocation -FilePath $Path
+		}
     }
     else
     {
@@ -110,7 +126,11 @@ function Test-TargetResource
         [parameter()]
         [ValidateSet('Present','Absent')]
         [string]
-        $Ensure = 'Present'
+        $Ensure = 'Present',
+		[parameter()]
+		[ValidateSet('PKCS12','PKCS7','X509')]
+		[string]
+		$Format = 'PKCS12'
     )
 
     $IsValid = $false
