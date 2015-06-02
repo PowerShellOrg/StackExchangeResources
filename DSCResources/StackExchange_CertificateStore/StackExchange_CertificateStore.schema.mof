@@ -6,6 +6,7 @@ class StackExchange_CertificateStore : OMI_BaseResource
 [write,ValueMap{"LocalMachine", "CurrentUser"},Values{"LocalMachine", "CurrentUser"}] string Location;
 [write] string Store;
 [write,ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] string Ensure;
+[write,ValueMap{"PKCS12", "PKCS7", "X509"},Values{"PKCS12", "PKCS7", "X509"}] string Format;
 };
 
 
