@@ -1,5 +1,3 @@
-
-
 function Get-TargetResource
 {
     [OutputType([Hashtable])]
@@ -70,7 +68,10 @@ function Set-TargetResource
         [parameter()]
         [ValidateSet('Present','Absent')]
         [string]
-        $Ensure = 'Present'
+        $Ensure = 'Present',
+        [parameter()]
+        [pscredential]
+        $Password
     )
 
     $CertificateBaseLocation = "cert:\$Location\$Store"
@@ -78,7 +79,14 @@ function Set-TargetResource
     if ($Ensure -like 'Present')
     {        
         Write-Verbose "Adding $path to $CertificateBaseLocation."
-        Import-PfxCertificate -CertStoreLocation $CertificateBaseLocation -FilePath $Path 
+
+        $passwordSplat = @{}
+        if ($Password)
+        {
+            $passwordSplat['Password'] = $Password.Password
+        }
+
+        Import-PfxCertificate -CertStoreLocation $CertificateBaseLocation -FilePath $Path @passwordSplat
     }
     else
     {
@@ -110,7 +118,10 @@ function Test-TargetResource
         [parameter()]
         [ValidateSet('Present','Absent')]
         [string]
-        $Ensure = 'Present'
+        $Ensure = 'Present',
+        [parameter()]
+        [pscredential]
+        $Password
     )
 
     $IsValid = $false
@@ -123,7 +134,18 @@ function Test-TargetResource
         if (Test-Path $CertificateLocation)
         {
             Write-Verbose "Found a matching certficate at $CertificateLocation"
-            $IsValid = $true
+
+            $cert = Get-Item $CertificateLocation
+
+            if ($cert.HasPrivateKey)
+            {
+                Write-Verbose "Certficate at $CertificateLocation has a private key installed."
+                $IsValid = $true
+            }
+            else
+            {
+                Write-Verbose "Certficate at $CertificateLocation does not have a private key installed."
+            }
         }
         else
         {
