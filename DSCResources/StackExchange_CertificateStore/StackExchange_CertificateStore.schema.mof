@@ -1,4 +1,4 @@
-[ClassVersion("1.0"), FriendlyName("CertificateStore")]
+[ClassVersion("1.1"), FriendlyName("CertificateStore")]
 class StackExchange_CertificateStore : OMI_BaseResource
 {
 [Key] string Name;
@@ -6,7 +6,5 @@ class StackExchange_CertificateStore : OMI_BaseResource
 [write,ValueMap{"LocalMachine", "CurrentUser"},Values{"LocalMachine", "CurrentUser"}] string Location;
 [write] string Store;
 [write,ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] string Ensure;
+[write,EmbeddedInstance("MSFT_Credential")] string Password;
 };
-
-
-
