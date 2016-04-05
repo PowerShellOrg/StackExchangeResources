@@ -93,8 +93,8 @@ function Set-TargetResource
         if ($Ensure -like 'Present')
         {   
             $PageFileSetting = Get-WmiObject Win32_PageFileSetting  
-            $PageFileSetting.InitialSize = $InitialSize / 1MB
-            $PageFileSetting.MaximumSize = $MaximumSize / 1MB                
+            $PageFileSetting.InitialSize = [int]($InitialSize / 1MB)
+            $PageFileSetting.MaximumSize = [int]($MaximumSize / 1MB)
             $PageFileSetting.put() | Out-Null
 
             Write-Verbose ($LocalizedData.PageFileStaticallyConfigured -f $InitialSize, $MaximumSize)            
@@ -143,13 +143,13 @@ function Test-TargetResource
            
         if ($PageFileSetting -ne $null)
         {
-            if (-not ($PageFileSetting.InitialSize -eq ($InitialSize / 1MB)))
+            if (-not ($PageFileSetting.InitialSize -eq [int]($InitialSize / 1MB)))
             {
                 Write-Verbose ($LocalizedData.InitialSizeDifferent -f ($PageFileSetting.InitialSize * 1mb), $InitialSize)
                 $Valid = $Valid -and $false
             }
 
-            if (-not ($PageFileSetting.MaximumSize -eq ($MaximumSize / 1MB)))
+            if (-not ($PageFileSetting.MaximumSize -eq [int]($MaximumSize / 1MB)))
             {
                 Write-Verbose ($LocalizedData.MaximumSizeDifferent -f ($PageFileSetting.MaximumSize * 1mb), $MaximumSize)
                 $Valid = $Valid -and $false
