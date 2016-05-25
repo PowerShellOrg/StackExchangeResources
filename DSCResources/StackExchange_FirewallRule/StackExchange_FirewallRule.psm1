@@ -48,59 +48,59 @@ function Get-TargetResource
         [ValidateSet('Any','Wired','Wireless', 'RemoteAccess')]
         [string]
         $InterfaceType,
-        [parameter()]        
+        [parameter()]
         [string[]]
         $LocalAddress,
-        [parameter()]        
+        [parameter()]
         [string[]]
         $LocalPort,
-        [parameter()]        
+        [parameter()]
         [string]
         $LocalUser,
         [parameter()]
         [ValidateSet('Any', 'Domain','Private','Public', 'NotApplicable')]
         [string]
         $Profile,
-        [parameter()]        
+        [parameter()]
         [string]
         $Program,
-        [parameter()]        
+        [parameter()]
         [string]
         $Protocol,
-        [parameter()]        
+        [parameter()]
         [string[]]
         $RemoteAddress,
-        [parameter()]        
+        [parameter()]
         [string]
         $RemoteMachine,
-        [parameter()]        
+        [parameter()]
         [string]
         $RemoteUser,
-        [parameter()]        
+        [parameter()]
         [string]
         $Service
     )
-    
+
     #Needs to return a hashtable that returns the current
     #status of the configuration component
     $Configuration = @{
         DisplayName = $DisplayName
     }
 
-    $Rule = Get-NetFirewallRule -DisplayName $DisplayName -ErrorAction SilentlyContinue  | 
+    $Rule = Get-NetFirewallRule -DisplayName $DisplayName -ErrorAction SilentlyContinue  |
         ForEach-Object {
             New-Object PSObject -Property @{
                 SourceRule = $_
-                AddressFilter = $_ | Get-NetFirewallAddressFilter 
-                ApplicationFilter = $_ | Get-NetFirewallApplicationFilter 
-                InterfaceFilter = $_ | Get-NetFirewallInterfaceFilter 
-                InterfaceTypeFilter = $_ | Get-NetFirewallInterfaceTypeFilter 
-                PortFilter = $_ | Get-NetFirewallPortFilter 
-                SecurityFilter = $_ | Get-NetFirewallSecurityFilter 
-                ServiceFilter = $_ | Get-NetFirewallServiceFilter 
+                AddressFilter = $_ | Get-NetFirewallAddressFilter
+                ApplicationFilter = $_ | Get-NetFirewallApplicationFilter
+                InterfaceFilter = $_ | Get-NetFirewallInterfaceFilter
+                InterfaceTypeFilter = $_ | Get-NetFirewallInterfaceTypeFilter
+                PortFilter = $_ | Get-NetFirewallPortFilter
+                SecurityFilter = $_ | Get-NetFirewallSecurityFilter
+                ServiceFilter = $_ | Get-NetFirewallServiceFilter
             }
         }
-    
+
     if ($Rule)
     {
         $Configuration.Ensure = 'Present'
@@ -113,7 +113,7 @@ function Get-TargetResource
     throw "To do yet"
     return $Configuration
 }
- 
+
 function Set-TargetResource
 {
     param (
@@ -163,35 +163,35 @@ function Set-TargetResource
         [ValidateSet('Any','Wired','Wireless', 'RemoteAccess')]
         [string]
         $InterfaceType,
-        [parameter()]        
+        [parameter()]
         [string[]]
         $LocalAddress,
-        [parameter()]        
+        [parameter()]
         [string[]]
         $LocalPort,
-        [parameter()]        
+        [parameter()]
         [string]
         $LocalUser,
         [parameter()]
         [ValidateSet('Any', 'Domain','Private','Public', 'NotApplicable')]
         [string]
         $Profile,
-        [parameter()]        
+        [parameter()]
         [string]
         $Program,
-        [parameter()]        
+        [parameter()]
         [string]
         $Protocol,
-        [parameter()]        
+        [parameter()]
         [string[]]
         $RemoteAddress,
-        [parameter()]        
+        [parameter()]
         [string]
         $RemoteMachine,
-        [parameter()]        
+        [parameter()]
         [string]
         $RemoteUser,
-        [parameter()]        
+        [parameter()]
         [string]
         $Service
     )
@@ -208,18 +208,18 @@ function Set-TargetResource
     if ($Ensure -like 'Present')
     {
         Write-Verbose "Checking for an existing rule $DisplayName."
-        $Rule = Get-NetFirewallRule -DisplayName $DisplayName -ErrorAction SilentlyContinue 
+        $Rule = Get-NetFirewallRule -DisplayName $DisplayName -ErrorAction SilentlyContinue
         if ($rule)
         {
-            Set-NetFirewallRule @PSBoundParameters 
+            Set-NetFirewallRule @PSBoundParameters
         }
         else
-        {            
-            New-NetFirewallRule @PSBoundParameters            
+        {
+            New-NetFirewallRule @PSBoundParameters
         }
     }
     else
-    {        
+    {
         Remove-NetFirewallRule -DisplayName $DisplayName -Confirm:$false
     }
 
@@ -275,49 +275,49 @@ function Test-TargetResource
         [ValidateSet('Any','Wired','Wireless', 'RemoteAccess')]
         [string]
         $InterfaceType,
-        [parameter()]        
+        [parameter()]
         [string[]]
         $LocalAddress,
-        [parameter()]        
+        [parameter()]
         [string[]]
         $LocalPort,
-        [parameter()]        
+        [parameter()]
         [string]
         $LocalUser,
         [parameter()]
         [ValidateSet('Any', 'Domain','Private','Public', 'NotApplicable')]
         [string]
         $Profile,
-        [parameter()]        
+        [parameter()]
         [string]
         $Program,
-        [parameter()]        
+        [parameter()]
         [string]
         $Protocol,
-        [parameter()]        
+        [parameter()]
         [string[]]
         $RemoteAddress,
-        [parameter()]        
+        [parameter()]
         [string]
         $RemoteMachine,
-        [parameter()]        
+        [parameter()]
         [string]
         $RemoteUser,
-        [parameter()]        
+        [parameter()]
         [string]
         $Service
     )
-    $Rule = Get-NetFirewallRule -DisplayName $DisplayName -ErrorAction SilentlyContinue  | 
+    $Rule = Get-NetFirewallRule -DisplayName $DisplayName -ErrorAction SilentlyContinue  |
         ForEach-Object {
             New-Object PSObject -Property @{
                 SourceRule = $_
-                AddressFilter = $_ | Get-NetFirewallAddressFilter 
-                ApplicationFilter = $_ | Get-NetFirewallApplicationFilter 
-                InterfaceFilter = $_ | Get-NetFirewallInterfaceFilter 
-                InterfaceTypeFilter = $_ | Get-NetFirewallInterfaceTypeFilter 
-                PortFilter = $_ | Get-NetFirewallPortFilter 
-                SecurityFilter = $_ | Get-NetFirewallSecurityFilter 
-                ServiceFilter = $_ | Get-NetFirewallServiceFilter 
+                AddressFilter = $_ | Get-NetFirewallAddressFilter
+                ApplicationFilter = $_ | Get-NetFirewallApplicationFilter
+                InterfaceFilter = $_ | Get-NetFirewallInterfaceFilter
+                InterfaceTypeFilter = $_ | Get-NetFirewallInterfaceTypeFilter
+                PortFilter = $_ | Get-NetFirewallPortFilter
+                SecurityFilter = $_ | Get-NetFirewallSecurityFilter
+                ServiceFilter = $_ | Get-NetFirewallServiceFilter
             }
         }
 
@@ -325,9 +325,9 @@ function Test-TargetResource
     if ($Ensure -like 'Present')
     {
         if ($Rule)
-        {      
+        {
             $ConfigMatches = $ConfigMatches -and ($Rule.SourceRule.Action -like $Action)
-            $ConfigMatches = $ConfigMatches -and ($Rule.SourceRule.Description -like $Description)
+            $ConfigMatches = $ConfigMatches -and ($Rule.SourceRule.Description -eq $Description)
             $ConfigMatches = $ConfigMatches -and ($Rule.SourceRule.Direction -like $Direction)
             $ConfigMatches = $ConfigMatches -and ($Rule.SourceRule.EdgeTraversalPolicy -like $EdgeTraversalPolicy)
             $ConfigMatches = $ConfigMatches -and ($Rule.SourceRule.Enabled -like $Enabled)
@@ -337,17 +337,21 @@ function Test-TargetResource
                 $ConfigMatches = $ConfigMatches -and ($Rule.SourceRule.DynamicTransport -like $DynamicTransport)
             }
             if ($LocalPort)
-            {            
+            {
                 $ConfigMatches = $ConfigMatches -and ($Rule.PortFilter.LocalPort -like $LocalPort)
                 $ConfigMatches = $ConfigMatches -and ($Rule.PortFilter.Protocol -like $Protocol)
             }
             if ($LocalAddress)
             {
-                $ConfigMatches = $ConfigMatches -and ($Rule.AddressFilter.LocalAddress -like $LocalAddress)
+                $roleLocalAddress = $Rule.AddressFilter.LocalAddress
+                $c = Compare-Object -ReferenceObject $roleLocalAddress -DifferenceObject $LocalAddress -PassThru
+                $ConfigMatches = $ConfigMatches -and ($c -eq $null)
             }
             if ($RemoteAddress)
             {
-                $ConfigMatches = $ConfigMatches -and ($Rule.AddressFilter.RemoteAddress -like $RemoteAddress)
+                $roleRemoteAddress = $Rule.AddressFilter.RemoteAddress
+                $c = Compare-Object -ReferenceObject $roleRemoteAddress -DifferenceObject $RemoteAddress -PassThru
+                $ConfigMatches = $ConfigMatches -and ($c -eq $null)
             }
             if ($Program)
             {
@@ -378,7 +382,7 @@ function Test-TargetResource
         }
         Write-Verbose "$DisplayName is not present and valid."
     }
-    
+
     return $ConfigMatches
 }
 
